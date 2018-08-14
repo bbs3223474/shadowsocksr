@@ -5,24 +5,62 @@ ShadowsocksR
 
 A fast tunnel proxy that helps you bypass firewalls.
 
+个人备份用。
+
+For private backup use.
+
 Server
 ------
 
 ### Install
 
-Debian / Ubuntu:
+仅记录个人在CentOS上安装的步骤：
 
-    apt-get install git
-    git clone https://github.com/shadowsocksr/shadowsocksr.git
+Only recorded my installation steps on CentOS:
 
-CentOS:
-
+    ## Installing dependences 安装依赖
+    yum install python-setuptools && easy_install pip
     yum install git
-    git clone https://github.com/shadowsocksr/shadowsocksr.git
+    yum -y groupinstall "Development Tools"
+    
+    ## Installing libsodium to enable chacha20 and other advanced encryptions 安装libsodium以启用chacha20等高级加密
+    wget https://download.libsodium.org/libsodium/releases/libsodium-stable-20XX-XX-XX.tar.gz
+    ## "XX-XX-XX" of libsodium's filename should be YY-MM-DD. 文件名中的"XX-XX-XX"应为"YY-MM-DD"格式
+    tar xf libsodium-stable-20XX-XX-XX.tar.gz && cd libsodium-stable
+    ./configure && make -j2 && make install
+    ## "make -j2" depends on the cores of your server. If single core, then "make -j1" and vice versa. "make-j2"根据服务器的CPU核心数决定，如果是单核，则"make -j1"，反之亦然
+    echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
+    ldconfig
+    
+    ## Installing ShadowsocksR 安装SSR
+    git clone -b manyuser https://github.com/shadowsocksr-backup/shadowsocksr.git
+    cd shadowsocksr
+    pip install python-devel
+    pip install libffi-devel
+    pip install openssl-devel
+    pip install cython
+    pip install cymysql
+    cp apiconfig.py userapiconfig.py
+    cp config.json user-config.json
+    cp mysql.json usermysql.json
+    
+    ## Back-end program and database configuration 后端程序与数据库配置
+    vim userapiconfig.py
+    ## Edit necessary data inside userapiconfig.py then :wq 编辑该文件中的必要数据并保存退出
+    vim usermysql.json
+    ## Edit necessary data inside usermysql.json then :wq编辑该文件中的必要数据并保存退出
+    
+    ## If necessary, disable firewall completely to prevent user ports being blocked 如有必要，可以彻底关闭防火墙以免用户端口被屏蔽
+    ## For CentOS7:
+    systemctl stop firewalld
+    systemctl disable firewalld
+    ## For CentOS6:
+    service iptables stop
+    chkconfig iptables off
+    
+    ## Back-end program installation and configuration complete 后端程序安装与配置完成
+    
 
-Windows:
-
-    git clone https://github.com/shadowsocksr/shadowsocksr.git
 
 ### Usage for single user on linux platform
 
