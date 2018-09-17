@@ -24,22 +24,33 @@ Only recorded my installation steps on CentOS:
     yum -y groupinstall "Development Tools"
     
     ## Installing libsodium to enable chacha20 and other advanced encryptions 安装libsodium以启用chacha20等高级加密
+    
     wget https://download.libsodium.org/libsodium/releases/libsodium-stable-20XX-XX-XX.tar.gz
+    
     ## "XX-XX-XX" of libsodium's filename should be YY-MM-DD. 文件名中的"XX-XX-XX"应为"YY-MM-DD"格式
+    
     tar xf libsodium-stable-20XX-XX-XX.tar.gz && cd libsodium-stable
     ./configure && make -j2 && make install
+    
     ## "make -j2" depends on the cores of your server. If single core, then "make -j1" and vice versa. "make-j2"根据服务器的CPU核心数决定，如果是单核，则"make -j1"，反之亦然
+    
     echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
     ldconfig
     
     ## Installing ShadowsocksR 安装SSR
     git clone -b manyuser https://github.com/shadowsocksr-backup/shadowsocksr.git
     cd shadowsocksr
-    pip install python-devel
-    pip install libffi-devel
-    pip install openssl-devel
+    yum install python-devel
+    yum install libffi-devel
+    yum install openssl-devel
     pip install cython
     pip install cymysql
+    # On the server of Vultr and some other VPS provider, swap partition was not being created and can cause cymysql installation fail
+    # on low memory machines (gcc exits status 4). Please create swap partition manually.
+    # 在Vultr及其他部分提供商的主机上，默认没有创建swap分区，这可能导致低内存机器上的cymysql安装失败（gcc exits status 4）
+    # 请手动创建swap分区
+    
+    # Creating proper config files. 创建正确的配置文件
     cp apiconfig.py userapiconfig.py
     cp config.json user-config.json
     cp mysql.json usermysql.json
