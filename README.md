@@ -18,18 +18,23 @@ Server
 
 Only recorded my installation steps on CentOS:
 
+    clear
+    echo "              ===简易SSR Manyuser后端程序安装脚本==="
+    echo "       ===此脚本将会带您自动安装sspanel前端使用的SSR后端程序==="
+    echo "===请确保VPS内存容量大于等于1GB或启用了swap空间，否则可能导致安装失败==="
+    echo "            请按任意键继续安装，否则请使用Ctrl+C退出脚本"
+    read -n 1
+    
     ## Installing dependences 安装依赖
-    yum install python-setuptools && easy_install pip
-    yum install git
+    yum install -y python-setuptools && easy_install pip
+    yum install -y git
     yum -y groupinstall "Development Tools"
     
     ## Installing libsodium to enable chacha20 and other advanced encryptions 安装libsodium以启用chacha20等高级加密
     
-    wget https://download.libsodium.org/libsodium/releases/libsodium-stable-20XX-XX-XX.tar.gz
+    wget https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
     
-    ## "XX-XX-XX" of libsodium's filename should be YY-MM-DD. 文件名中的"XX-XX-XX"应为"YY-MM-DD"格式
-    
-    tar xf libsodium-stable-20XX-XX-XX.tar.gz && cd libsodium-stable
+    tar xf LATEST.tar.gz && cd libsodium-stable
     ./configure && make -j2 && make install
     
     ## "make -j2" depends on the cores of your server. If single core, then "make -j1" and vice versa. "make-j2"根据服务器的CPU核心数决定，如果是单核，则"make -j1"，反之亦然
@@ -40,9 +45,7 @@ Only recorded my installation steps on CentOS:
     ## Installing ShadowsocksR 安装SSR
     git clone -b manyuser https://github.com/shadowsocksr-backup/shadowsocksr.git
     cd shadowsocksr
-    yum install python-devel
-    yum install libffi-devel
-    yum install openssl-devel
+    yum install -y python-devel libffi-devel openssl-devel
     pip install cython
     pip install cymysql
     # On the server of Vultr and some other VPS provider, swap partition was not being created and can cause cymysql installation fail
