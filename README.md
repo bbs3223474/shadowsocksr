@@ -42,6 +42,7 @@ Only recorded my installation steps on CentOS:
     
     echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
     ldconfig
+    cd ..
     
     ## Installing ShadowsocksR 安装SSR
     git clone -b manyuser https://github.com/shadowsocksr-backup/shadowsocksr.git
