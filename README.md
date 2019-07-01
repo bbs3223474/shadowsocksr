@@ -49,12 +49,12 @@ Only recorded my installation steps on CentOS:
     yum install -y python-devel libffi-devel openssl-devel
     pip install cython
     pip install cymysql
-    # On the server of Vultr and some other VPS provider, swap partition was not being created and can cause cymysql installation fail
-    # on low memory machines (gcc exits status 4). Please create swap partition manually.
-    # 在Vultr及其他部分提供商的主机上，默认没有创建swap分区，这可能导致低内存机器上的cymysql安装失败（gcc exits status 4）
-    # 请手动创建swap分区
+    ## On the server of Vultr and some other VPS provider, swap partition was not being created and can cause cymysql installation fail
+    ## on low memory machines (gcc exits status 4). Please create swap partition manually.
+    ## 在Vultr及其他部分提供商的主机上，默认没有创建swap分区，这可能导致低内存机器上的cymysql安装失败（gcc exits status 4）
+    ## 请手动创建swap分区
     
-    # Creating proper config files. 创建正确的配置文件
+    ## Creating proper config files. 创建正确的配置文件
     cp apiconfig.py userapiconfig.py
     cp config.json user-config.json
     cp mysql.json usermysql.json
