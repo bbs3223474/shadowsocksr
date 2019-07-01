@@ -18,6 +18,7 @@ Server
 
 Only recorded my installation steps on CentOS:
 
+    #!/bin/sh
     clear
     echo "              ===简易SSR Manyuser后端程序安装脚本==="
     echo "       ===此脚本将会带您自动安装sspanel前端使用的SSR后端程序==="
